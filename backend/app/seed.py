@@ -2,6 +2,7 @@ import os
 import glob
 import json
 from datetime import datetime, timezone
+from sqlalchemy import text
 from sqlalchemy.orm import Session
 from backend.app.core.database import Base, engine, SessionLocal
 from backend.app.core.security import get_password_hash
@@ -13,6 +14,23 @@ from backend.app.core.config import settings
 def seed_database():
     print("[CyberSentry Seed] Initializing database schema...")
     Base.metadata.create_all(bind=engine)
+
+    # Automatically widen columns on existing PostgreSQL databases if needed
+    try:
+        with engine.begin() as conn:
+            for stmt in [
+                "ALTER TABLE custody_events ALTER COLUMN previous_event_hash TYPE VARCHAR(128);",
+                "ALTER TABLE custody_events ALTER COLUMN metadata_hash TYPE VARCHAR(128);",
+                "ALTER TABLE custody_events ALTER COLUMN event_hash TYPE VARCHAR(128);",
+                "ALTER TABLE evidence ALTER COLUMN chain_head_hmac TYPE VARCHAR(128);",
+            ]:
+                try:
+                    conn.execute(text(stmt))
+                except Exception:
+                    pass
+    except Exception:
+        pass
+
     if not settings.SEED_DEMO_DATA:
         print("[CyberSentry Seed] SEED_DEMO_DATA is False. Skipping demo data insertion.")
         return

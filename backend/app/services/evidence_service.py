@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 from backend.app.core.config import settings
 from backend.app.models import Evidence, CustodyEvent, User
 
-GENESIS_HASH = "GENESIS-0000000000000000000000000000000000000000000000000000000000000000"
+GENESIS_HASH = "0000000000000000000000000000000000000000000000000000000000000000"
 
 def format_canonical_utc(dt: Optional[datetime]) -> str:
     """Canonicalize datetime to UTC ISO-8601 string for tamper-proof hashing."""
