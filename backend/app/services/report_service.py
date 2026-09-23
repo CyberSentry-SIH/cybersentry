@@ -142,7 +142,11 @@ def generate_json_report(db: Session, evidence_id: str, record_custody: bool = T
     return report
 
 def generate_pdf_report(db: Session, evidence_id: str) -> bytes:
-    data = generate_json_report(db, evidence_id, record_custody=False)
+    evidence = db.query(Evidence).filter((Evidence.id == evidence_id) | (Evidence.evidence_id == evidence_id)).first()
+    if not evidence:
+        raise ValueError("Evidence record not found")
+
+    data = generate_json_report(db, evidence.id, record_custody=False)
     buffer = io.BytesIO()
     doc = SimpleDocTemplate(buffer, pagesize=letter, rightMargin=36, leftMargin=36, topMargin=36, bottomMargin=36)
 

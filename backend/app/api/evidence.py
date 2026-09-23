@@ -76,7 +76,24 @@ async def upload_eml(
     # If new evidence (not duplicate), automatically trigger pipeline processing
     if custody_event.action != "DUPLICATE_SUBMISSION":
         try:
-            process_email_analysis(db=db, evidence=evidence, actor_user=current_user)
+            run = process_email_analysis(db=db, evidence=evidence, actor_user=current_user)
+            # Automatically create an active investigation case for the uploading user
+            try:
+                from backend.app.services.case_service import create_case
+                sev = "MEDIUM"
+                if run and run.risk_score:
+                    sev = run.risk_score.band or "MEDIUM"
+                subj = evidence.email.subject if evidence.email else safe_filename
+                create_case(
+                    db=db,
+                    title=f"Investigation: {subj or safe_filename}",
+                    severity=sev,
+                    created_by=current_user,
+                    summary=f"Incident case opened for evidence {evidence.evidence_id} ({safe_filename}).",
+                    evidence_ids=[evidence.id]
+                )
+            except Exception as case_err:
+                logger.warning("Could not auto-create case: %s", case_err)
         except Exception as e:
             logger.exception(
                 "Analysis pipeline failed for evidence_id=%s: %s",

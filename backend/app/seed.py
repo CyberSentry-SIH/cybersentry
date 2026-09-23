@@ -142,9 +142,27 @@ def seed_database():
                     collector_user=analyst
                 )
                 print(f"   -> Processing {filename} ({evidence.evidence_id})...")
-                process_email_analysis(db=db, evidence=evidence, actor_user=analyst)
+                run = process_email_analysis(db=db, evidence=evidence, actor_user=analyst)
 
-            print(" [+] Successfully analyzed and indexed all synthetic sample emails.")
+                # Seed initial case for this sample
+                try:
+                    from backend.app.services.case_service import create_case
+                    sev = "MEDIUM"
+                    if run and run.risk_score:
+                        sev = run.risk_score.band or "MEDIUM"
+                    subj = evidence.email.subject if evidence.email else filename
+                    create_case(
+                        db=db,
+                        title=f"Investigation: {subj or filename}",
+                        severity=sev,
+                        created_by=analyst,
+                        summary=f"Forensic incident case opened for {evidence.evidence_id} ({filename}).",
+                        evidence_ids=[evidence.id]
+                    )
+                except Exception as ce_err:
+                    print(f"   [!] Case creation notice: {ce_err}")
+
+            print(" [+] Successfully analyzed and indexed all synthetic sample emails and created cases.")
 
         print("[CyberSentry Seed] Database initialization and seed completed successfully!")
 

@@ -47,7 +47,8 @@ def list_cases(db: Session = Depends(get_db), current_user: User = Depends(get_c
         ))
     return results
 
-@router.post("/", response_model=CaseResponse)
+@router.post("", response_model=CaseResponse)
+@router.post("/", response_model=CaseResponse, include_in_schema=False)
 def create_new_case(
     req: CaseCreateRequest,
     db: Session = Depends(get_db),
