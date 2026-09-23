@@ -1,4 +1,6 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
+const API_BASE = typeof window !== 'undefined'
+  ? '/api/v1'
+  : (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1');
 
 function getToken(): string | null {
   if (typeof window !== 'undefined') {
@@ -54,6 +56,7 @@ export const api = {
     }
   },
   getMe: () => fetchWithAuth('/auth/me'),
+  getHealth: () => fetchWithAuth('/health'),
 
   // Evidence & Upload
   uploadEml: async (file: File) => {

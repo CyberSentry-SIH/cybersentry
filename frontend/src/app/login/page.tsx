@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 import Link from "next/link";
 import { Eye, EyeOff, Loader2, ShieldAlert, ShieldCheck, KeyRound, UserCheck, ArrowRight, Activity } from "lucide-react";
 
@@ -17,11 +17,22 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [serverOnline, setServerOnline] = useState<boolean | null>(null);
   const [fieldErrors, setFieldErrors] = useState<{
     email?: string;
     password?: string;
   }>({});
   const [authError, setAuthError] = useState<string | null>(null);
+
+  useEffect(() => {
+    api.getHealth()
+      .then((res) => {
+        setServerOnline(res?.status === "OK" || res !== null);
+      })
+      .catch(() => {
+        setServerOnline(false);
+      });
+  }, []);
 
   function validate(): boolean {
     const errors: typeof fieldErrors = {};
@@ -95,9 +106,21 @@ export default function LoginPage() {
 
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-bold text-slate-900 dark:text-white tracking-tight">SOC Access Authentication</h2>
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-800 text-[10px] font-mono text-emerald-800 dark:text-emerald-400 font-bold">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span>SERVER ONLINE</span>
+            <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[10px] font-mono font-bold ${
+              serverOnline === true
+                ? "bg-emerald-100 dark:bg-emerald-950/60 border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-400"
+                : serverOnline === false
+                ? "bg-rose-100 dark:bg-rose-950/60 border-rose-300 dark:border-rose-800 text-rose-800 dark:text-rose-400"
+                : "bg-amber-100 dark:bg-amber-950/60 border-amber-300 dark:border-amber-800 text-amber-800 dark:text-amber-400"
+            }`}>
+              <span className={`h-1.5 w-1.5 rounded-full ${
+                serverOnline === true
+                  ? "bg-emerald-500 animate-pulse"
+                  : serverOnline === false
+                  ? "bg-rose-500"
+                  : "bg-amber-500 animate-ping"
+              }`} />
+              <span>{serverOnline === true ? "SERVER ONLINE" : serverOnline === false ? "SERVER OFFLINE" : "CONNECTING..."}</span>
             </div>
           </div>
 
