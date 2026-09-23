@@ -25,6 +25,9 @@ async function fetchWithAuth(endpoint: string, options: RequestInit = {}) {
   });
 
   if (!res.ok) {
+    if (res.status === 401 && typeof window !== 'undefined' && !endpoint.includes('/auth/login') && !endpoint.includes('/health')) {
+      localStorage.removeItem('cybersentry_token');
+    }
     const errorData = await res.json().catch(() => ({ detail: res.statusText }));
     throw new Error(errorData.detail || 'An API error occurred');
   }

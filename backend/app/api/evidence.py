@@ -86,7 +86,8 @@ async def upload_eml(
     db.refresh(evidence)
     return EvidenceResponse.model_validate(evidence)
 
-@router.get("/", response_model=List[EvidenceResponse])
+@router.get("", response_model=List[EvidenceResponse])
+@router.get("/", response_model=List[EvidenceResponse], include_in_schema=False)
 def list_evidence(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     items = db.query(Evidence).order_by(Evidence.collected_at.desc()).all()
     return [EvidenceResponse.model_validate(e) for e in items]

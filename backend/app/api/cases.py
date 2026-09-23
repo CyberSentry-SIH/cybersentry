@@ -12,7 +12,8 @@ from backend.app.api.deps import get_current_user
 
 router = APIRouter(prefix="/cases", tags=["Incident Cases"])
 
-@router.get("/", response_model=List[CaseResponse])
+@router.get("", response_model=List[CaseResponse])
+@router.get("/", response_model=List[CaseResponse], include_in_schema=False)
 def list_cases(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     cases = db.query(Case).order_by(Case.created_at.desc()).all()
     results = []

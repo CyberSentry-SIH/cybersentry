@@ -11,7 +11,8 @@ from backend.app.core.strength import relationship_strength_label
 
 router = APIRouter(prefix="/campaigns", tags=["Attack Campaigns"])
 
-@router.get("/", response_model=List[CampaignResponse])
+@router.get("", response_model=List[CampaignResponse])
+@router.get("/", response_model=List[CampaignResponse], include_in_schema=False)
 def list_campaigns(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     campaigns = db.query(Campaign).order_by(Campaign.last_seen.desc()).all()
     results = []
