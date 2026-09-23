@@ -86,7 +86,7 @@ class Evidence(Base):
     collected_by = Column(String(36), ForeignKey("users.id"), nullable=True)
     retention_until = Column(UTCDateTime, nullable=True)
     legal_hold = Column(Boolean, default=False, nullable=False)
-    chain_head_hmac = Column(String(64), nullable=True)
+    chain_head_hmac = Column(String(128), nullable=True)
     created_at = Column(UTCDateTime, default=utc_now, nullable=False)
 
     collector = relationship("User", back_populates="collected_evidence")
@@ -103,9 +103,9 @@ class CustodyEvent(Base):
     actor_id = Column(String(36), ForeignKey("users.id"), nullable=True)
     action = Column(String(64), nullable=False)  # INGESTED, PARSED, ANALYZED, ANALYSIS_FAILED, EXPORTED, VIEWED, DECISION_RECORDED, DUPLICATE_SUBMISSION
     event_time = Column(UTCDateTime, default=utc_now, nullable=False)
-    metadata_hash = Column(String(64), nullable=False)
-    previous_event_hash = Column(String(64), nullable=True)
-    event_hash = Column(String(64), nullable=False)
+    metadata_hash = Column(String(128), nullable=False)
+    previous_event_hash = Column(String(128), nullable=True)
+    event_hash = Column(String(128), nullable=False)
     details = Column(JSON, default=dict, nullable=False)
 
     evidence = relationship("Evidence", back_populates="custody_events")

@@ -10,9 +10,9 @@ class UTCDateTime(TypeDecorator):
     """
     SQLAlchemy TypeDecorator for timezone-aware UTC datetime fields.
     Ensures datetime is stored and retrieved consistently with timezone.utc,
-    preventing SQLite timezone stripping from invalidating forensic hashes.
+    preventing SQLite/Postgres timezone stripping from invalidating forensic hashes.
     """
-    impl = DateTime
+    impl = DateTime(timezone=True)
     cache_ok = True
 
     def process_bind_param(self, value, dialect):
