@@ -1,0 +1,32 @@
+From: "Billing Operations" <invoices@company-corp.com>
+To: accounts.payable@partner-client.org
+Subject: Monthly Service Statement - Invoice #INV-2026-0881
+Date: Mon, 02 Sep 2026 09:00:00 +0000
+Message-ID: <20260902090000.441920@company-corp.com>
+Reply-To: invoices@company-corp.com
+Return-Path: <invoices@company-corp.com>
+Authentication-Results: mx.partner-client.org;
+ spf=pass (sender IP 203.0.113.10 matches SPF record for company-corp.com);
+ dkim=pass header.d=company-corp.com;
+ dmarc=pass (p=reject sp=reject) header.from=company-corp.com
+Received: from mail.company-corp.com (mail.company-corp.com [203.0.113.10])
+ by mx.partner-client.org (Postfix) with ESMTPS id 1AaBbCcDdEe
+ for <accounts.payable@partner-client.org>; Mon, 02 Sep 2026 09:00:05 +0000
+Content-Type: text/html; charset="UTF-8"
+MIME-Version: 1.0
+
+<html>
+<body style="font-family: Arial, sans-serif; color: #333;">
+  <h3>Monthly Service Statement</h3>
+  <p>Dear Partner,</p>
+  <p>Please find attached your standard monthly invoice for services rendered during August 2026.</p>
+  <p>Invoice Number: <strong>INV-2026-0881</strong><br/>
+     Amount Due: $4,250.00 USD<br/>
+     Due Date: September 30, 2026
+  </p>
+  <p>Payment terms remain Net 30 as defined in Master Agreement Section 4.</p>
+  <p>For questions or billing inquiries, please contact our financial operations team.</p>
+  <br/>
+  <p>Best regards,<br/>Accounts Receivable<br/>Company Corp Operations</p>
+</body>
+</html>

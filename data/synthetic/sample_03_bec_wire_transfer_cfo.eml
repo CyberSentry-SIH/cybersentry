@@ -1,0 +1,34 @@
+From: "Robert Hastings (CEO)" <ceo-office@company-corpp.com>
+To: sarah.jenkins@company-corp.com
+Subject: URGENT & CONFIDENTIAL: Acquisition Wire Transfer Authorization
+Date: Thu, 05 Sep 2026 16:40:12 +0000
+Message-ID: <20260905164012.771239@company-corpp.com>
+Reply-To: executive-direct@private-consulting-group.org
+Return-Path: <exec@company-corpp.com>
+Authentication-Results: mx.company-corp.com;
+ spf=neutral (domain company-corpp.com does not provide an SPF record);
+ dkim=none;
+ dmarc=none
+Received: from unknown-vps.hosting-network.biz (unknown-vps.hosting-network.biz [194.26.29.112])
+ by mx.company-corp.com (Postfix) with ESMTPS id 3RkLzM8wQts
+ for <sarah.jenkins@company-corp.com>; Thu, 05 Sep 2026 16:40:18 +0000
+Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+
+Sarah,
+
+I am currently in an all-day confidential board meeting regarding our Q3 acquisition target.
+
+We need to finalize the escrow deposit of $142,500 immediately before market close today. I have attached the updated routing and SWIFT details below.
+
+Please process this wire immediately from the main operating account and reply directly to this email with the wire transaction reference number. Do not discuss this via phone or Slack as our NDA is strictly in effect.
+
+Beneficiary: Apex Strategic Holdings LLC
+Bank: Global Commercial Bank of London
+Routing/Sort: 20-04-15
+Account: 9482019482
+Ref: Project Blue-Escrow
+
+Thank you,
+Robert Hastings
+Chief Executive Officer

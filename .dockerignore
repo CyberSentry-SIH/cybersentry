@@ -1,0 +1,16 @@
+.env
+**/.env*
+backend/venv
+frontend/node_modules
+frontend/.next
+*.db
+cybersentry.db
+evidence_store/
+.git
+.pytest_cache
+__pycache__
+**/__pycache__
+*.pyc
+*.pyo
+*.pyd
+.DS_Store

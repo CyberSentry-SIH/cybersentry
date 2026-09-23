@@ -1,0 +1,79 @@
+# India-specific brand profiles for lookalike and impersonation detection (F14)
+brands:
+  - id: "sbi"
+    name: "State Bank of India"
+    official_domains:
+      - "sbi.co.in"
+      - "onlinesbi.sbi"
+      - "onlinesbi.com"
+    keywords:
+      - "sbi"
+      - "state bank"
+      - "yono"
+      - "yono sbi"
+    risk_weight: 35.0
+
+  - id: "hdfc"
+    name: "HDFC Bank"
+    official_domains:
+      - "hdfcbank.com"
+      - "hdfc.com"
+    keywords:
+      - "hdfc"
+      - "hdfc bank"
+      - "netbanking hdfc"
+    risk_weight: 35.0
+
+  - id: "icici"
+    name: "ICICI Bank"
+    official_domains:
+      - "icicibank.com"
+    keywords:
+      - "icici"
+      - "icici bank"
+      - "imobile"
+    risk_weight: 35.0
+
+  - id: "axis"
+    name: "Axis Bank"
+    official_domains:
+      - "axisbank.com"
+    keywords:
+      - "axis"
+      - "axis bank"
+    risk_weight: 30.0
+
+  - id: "incometax"
+    name: "Income Tax Department of India"
+    official_domains:
+      - "incometax.gov.in"
+      - "tin-nsdl.com"
+      - "protean-tinpan.com"
+    keywords:
+      - "income tax"
+      - "cbdt"
+      - "incometax department"
+      - "tin nsdl"
+    risk_weight: 40.0
+
+  - id: "epfo"
+    name: "Employees' Provident Fund Organisation"
+    official_domains:
+      - "epfindia.gov.in"
+    keywords:
+      - "epfo"
+      - "provident fund"
+      - "epfindia"
+      - "uan member"
+    risk_weight: 30.0
+
+  - id: "indiapost"
+    name: "India Post"
+    official_domains:
+      - "indiapost.gov.in"
+      - "indiapostgdsonline.gov.in"
+    keywords:
+      - "india post"
+      - "indiapost"
+      - "speed post"
+    risk_weight: 25.0

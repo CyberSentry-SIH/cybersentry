@@ -1,0 +1,36 @@
+From: "Corporate IT Security Operations" <secops@company-corp.com>
+To: target.analyst@company-corp.com
+Subject: [MANDATORY] Urgent Security Notice: Enterprise Password Policy Update Within 24 Hours
+Date: Thu, 05 Sep 2026 08:30:00 +0000
+Message-ID: <20260905083000.771204@company-corp.com>
+Reply-To: secops@company-corp.com
+Return-Path: <secops@company-corp.com>
+Authentication-Results: mx.company-corp.com;
+ spf=pass (sender IP 203.0.113.10 matches SPF record for company-corp.com);
+ dkim=pass header.d=company-corp.com;
+ dmarc=pass (p=reject sp=reject) header.from=company-corp.com
+Received: from mail.company-corp.com (mail.company-corp.com [203.0.113.10])
+ by mx.company-corp.com (Postfix) with ESMTPS id 9KxLpQ2wZmb
+ for <target.analyst@company-corp.com>; Thu, 05 Sep 2026 08:30:05 +0000
+Content-Type: text/html; charset="UTF-8"
+MIME-Version: 1.0
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body { font-family: Arial, sans-serif; color: #222; }
+.btn { background: #1e3a8a; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block; font-weight: bold; }
+</style>
+</head>
+<body>
+  <h2>Enterprise Security Operations Notice</h2>
+  <p>Dear Colleague,</p>
+  <p>In accordance with quarterly SOC compliance standards, all enterprise employees are required to review the updated internal access control guidelines within 24 hours.</p>
+  <p>This is a standard internal verification notice. No account suspension will occur, and your credentials should only be entered on our verified Single Sign-On portal.</p>
+  <p style="margin: 25px 0;">
+    <a class="btn" href="https://internal.company-corp.com/security/policy-update">Review Enterprise Policy</a>
+  </p>
+  <p>Regards,<br/>Cybersecurity & IT Operations Team<br/>Company Corp</p>
+</body>
+</html>

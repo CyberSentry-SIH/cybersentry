@@ -1,0 +1,23 @@
+Delivered-To: victim@target-corp.in
+Received: by 2002:a17:902:8a8a:: with SMTP id test-ipv6-mta;
+        Tue, 22 Sep 2026 09:14:22 +0000 (UTC)
+Received: from mail.sbi-kyc-service.in (mail.sbi-kyc-service.in [185.220.101.5])
+        by mx.target-corp.in (Target Gateway) with ESMTP id abc123
+        for <victim@target-corp.in>; Tue, 22 Sep 2026 09:14:20 +0000 (UTC)
+From: "State Bank of India Online" <no-reply@sbi-kyc-service.in>
+To: victim@target-corp.in
+Subject: Urgent Notice: Turant KYC Update Karein - Khata Band Ho Jayega
+Date: Tue, 22 Sep 2026 09:14:15 +0000
+Message-ID: <sbi-alert-20260922@sbi-kyc-service.in>
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+
+<html>
+<body>
+<p>Priya Grahak,</p>
+<p>Aapka SBI khata KYC na hone ke karan 24 ghante me block ho jayega.</p>
+<p>Turant apna Pan Card aur Aadhaar link karein:</p>
+<p><a href="http://sbi-kyc-service.in/login?user=victim&token=9876543210">Click Here to Update KYC Now</a></p>
+<p>Yono SBI Security Team</p>
+</body>
+</html>

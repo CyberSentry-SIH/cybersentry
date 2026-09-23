@@ -1,0 +1,138 @@
+[
+  {
+    "indicator_type": "DOMAIN",
+    "canonical_value": "paypa1-security-update.com",
+    "verdict": "KNOWN_MALICIOUS",
+    "source": "CYBERSENTRY_THREAT_INTEL",
+    "confidence": 0.98,
+    "notes": "Known PayPal phishing domain using homoglyph '1' for 'l'"
+  },
+  {
+    "indicator_type": "DOMAIN",
+    "canonical_value": "micr0soft-online-login.net",
+    "verdict": "KNOWN_MALICIOUS",
+    "source": "CYBERSENTRY_THREAT_INTEL",
+    "confidence": 0.95,
+    "notes": "Known Microsoft 365 credential harvesting lure domain"
+  },
+  {
+    "indicator_type": "DOMAIN",
+    "canonical_value": "secure-bank-auth-portal.top",
+    "verdict": "KNOWN_MALICIOUS",
+    "source": "CYBERSENTRY_THREAT_INTEL",
+    "confidence": 0.92,
+    "notes": "High-risk suspicious banking verification portal hosted on .top TLD"
+  },
+  {
+    "indicator_type": "DOMAIN",
+    "canonical_value": "incometax-gov-efiling.top",
+    "verdict": "KNOWN_MALICIOUS",
+    "source": "INDIAN_CERT_IN_INTEL",
+    "confidence": 0.99,
+    "notes": "Income Tax refund credential harvesting scam portal"
+  },
+  {
+    "indicator_type": "DOMAIN",
+    "canonical_value": "hdfc-secure-auth.xyz",
+    "verdict": "KNOWN_MALICIOUS",
+    "source": "INDIAN_CERT_IN_INTEL",
+    "confidence": 0.97,
+    "notes": "HDFC Bank NetBanking credential phishing clone"
+  },
+  {
+    "indicator_type": "DOMAIN",
+    "canonical_value": "sbi-kyc-service.in",
+    "verdict": "KNOWN_MALICIOUS",
+    "source": "INDIAN_CERT_IN_INTEL",
+    "confidence": 0.98,
+    "notes": "SBI Yono KYC suspension scam domain"
+  },
+  {
+    "indicator_type": "DOMAIN",
+    "canonical_value": "echallan-parivahan-pay.icu",
+    "verdict": "KNOWN_MALICIOUS",
+    "source": "CYBERSENTRY_THREAT_INTEL",
+    "confidence": 0.96,
+    "notes": "Fake Parivahan traffic police fine extortion portal"
+  },
+  {
+    "indicator_type": "IP",
+    "canonical_value": "185.220.101.5",
+    "verdict": "KNOWN_MALICIOUS",
+    "source": "ABUSE_IPDB_SEED",
+    "confidence": 0.89,
+    "notes": "Bulletproof hosting IP observed in phishing campaigns"
+  },
+  {
+    "indicator_type": "IP",
+    "canonical_value": "185.220.101.88",
+    "verdict": "KNOWN_MALICIOUS",
+    "source": "CYBERSENTRY_THREAT_INTEL",
+    "confidence": 0.95,
+    "notes": "Shared bulletproof hosting subnet for financial phishing"
+  },
+  {
+    "indicator_type": "IP",
+    "canonical_value": "198.51.100.44",
+    "verdict": "KNOWN_MALICIOUS",
+    "source": "CYBERSENTRY_THREAT_INTEL",
+    "confidence": 0.92,
+    "notes": "Phishing relay node"
+  },
+  {
+    "indicator_type": "IP",
+    "canonical_value": "194.26.29.112",
+    "verdict": "KNOWN_MALICIOUS",
+    "source": "CYBERSENTRY_THREAT_INTEL",
+    "confidence": 0.94,
+    "notes": "Active credential harvester landing host"
+  },
+  {
+    "indicator_type": "DOMAIN",
+    "canonical_value": "paypal.com",
+    "verdict": "KNOWN_BENIGN",
+    "source": "ALEXA_TOP_1M",
+    "confidence": 0.99,
+    "notes": "Legitimate PayPal domain"
+  },
+  {
+    "indicator_type": "DOMAIN",
+    "canonical_value": "sbi.co.in",
+    "verdict": "KNOWN_BENIGN",
+    "source": "ALEXA_TOP_1M",
+    "confidence": 0.99,
+    "notes": "Official State Bank of India portal"
+  },
+  {
+    "indicator_type": "DOMAIN",
+    "canonical_value": "hdfcbank.com",
+    "verdict": "KNOWN_BENIGN",
+    "source": "ALEXA_TOP_1M",
+    "confidence": 0.99,
+    "notes": "Official HDFC Bank NetBanking portal"
+  },
+  {
+    "indicator_type": "DOMAIN",
+    "canonical_value": "incometax.gov.in",
+    "verdict": "KNOWN_BENIGN",
+    "source": "GOV_REGISTRY",
+    "confidence": 0.99,
+    "notes": "Official Income Tax Department of India portal"
+  },
+  {
+    "indicator_type": "DOMAIN",
+    "canonical_value": "microsoft.com",
+    "verdict": "KNOWN_BENIGN",
+    "source": "ALEXA_TOP_1M",
+    "confidence": 0.99,
+    "notes": "Legitimate Microsoft domain"
+  },
+  {
+    "indicator_type": "DOMAIN",
+    "canonical_value": "company-corp.com",
+    "verdict": "KNOWN_BENIGN",
+    "source": "ORGANIZATION_INTERNAL",
+    "confidence": 0.99,
+    "notes": "Internal enterprise domain"
+  }
+]

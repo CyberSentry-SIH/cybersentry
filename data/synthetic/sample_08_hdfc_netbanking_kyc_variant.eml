@@ -1,0 +1,27 @@
+Delivered-To: executive-account@target-corp.in
+Received: from mx-outbound.hdfc-secure-auth.xyz (mx-outbound.hdfc-secure-auth.xyz [198.51.100.44])
+        by mx.target-corp.in (Target Inbound Gateway) with ESMTP id hdfc-phish-8819
+        for <executive-account@target-corp.in>; Tue, 22 Sep 2026 15:30:10 +0000 (UTC)
+From: "HDFC NetBanking Support" <security-alerts@hdfc-secure-auth.xyz>
+To: executive-account@target-corp.in
+Subject: Mandatory Security Alert: Your HDFC NetBanking access is temporarily on hold
+Date: Tue, 22 Sep 2026 15:29:55 +0000
+Message-ID: <hdfc-auth-hold-20260922@hdfc-secure-auth.xyz>
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+
+<!DOCTYPE html>
+<html>
+<body style="font-family: Arial, sans-serif; background-color: #f8fafc; padding: 20px;">
+  <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 24px;">
+    <h3 style="color: #004c8f; border-bottom: 2px solid #004c8f; padding-bottom: 10px;">HDFC BANK - NETBANKING SECURITY</h3>
+    <p>Dear Valued Customer,</p>
+    <p>Your HDFC Bank NetBanking access has been placed on temporary hold due to unverified PAN/KYC compliance as per RBI mandate.</p>
+    <p>To avoid permanent suspension of outward transactions, please verify your NetBanking customer ID and PAN:</p>
+    <p style="text-align: center; margin: 25px 0;">
+      <a href="http://hdfc-secure-auth.xyz/netbanking/login.php?session=active_99182" style="background-color: #004c8f; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 4px; font-weight: bold;">Unlock HDFC NetBanking Account</a>
+    </p>
+    <p style="font-size: 11px; color: #94a3b8;">HDFC Bank Ltd., HDFC Bank House, Senapati Bapat Marg, Lower Parel, Mumbai.</p>
+  </div>
+</body>
+</html>

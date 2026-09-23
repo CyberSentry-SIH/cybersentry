@@ -1,0 +1,28 @@
+Delivered-To: vehicle-owner@target-corp.in
+Authentication-Results: mx.target-corp.in; spf=fail (sender IP is 185.220.101.99) smtp.mailfrom=echallan-parivahan-pay.icu; dkim=fail; dmarc=fail
+Received: from mail.echallan-parivahan-pay.icu (mail.echallan-parivahan-pay.icu [185.220.101.99])
+        by mx.target-corp.in (Target Inbound Gateway) with ESMTP id echallan-7721
+        for <vehicle-owner@target-corp.in>; Tue, 22 Sep 2026 16:45:00 +0000 (UTC)
+From: "Traffic Police Department E-Challan" <no-reply@echallan-parivahan-pay.icu>
+To: vehicle-owner@target-corp.in
+Subject: Final Summons Notice: Pending Traffic E-Challan against your vehicle DL01AB1234
+Date: Tue, 22 Sep 2026 16:44:45 +0000
+Message-ID: <echallan-summons-20260922@echallan-parivahan-pay.icu>
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+
+<!DOCTYPE html>
+<html>
+<body style="font-family: Arial, sans-serif; background-color: #f1f5f9; padding: 20px;">
+  <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 24px;">
+    <h3 style="color: #b91c1c; border-bottom: 2px solid #b91c1c; padding-bottom: 8px;">MINISTRY OF ROAD TRANSPORT & HIGHWAYS - E-CHALLAN NOTICE</h3>
+    <p>Dear Vehicle Owner,</p>
+    <p>A pending traffic violation fine of <strong>INR 2,500/-</strong> has exceeded the 30-day payment deadline for vehicle <strong>DL01AB1234</strong>.</p>
+    <p>Non-payment within 24 hours will result in automatic court summons and suspension of vehicle registration certificate (RC).</p>
+    <div style="text-align: center; margin: 24px 0;">
+      <a href="http://echallan-parivahan-pay.icu/pay/challan?vehicle=DL01AB1234&court=delhi" style="background-color: #b91c1c; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">Pay Pending Challan Online</a>
+    </div>
+    <p style="font-size: 11px; color: #64748b;">Parivahan Sewa, Ministry of Road Transport & Highways, Government of India.</p>
+  </div>
+</body>
+</html>

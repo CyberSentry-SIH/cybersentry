@@ -1,0 +1,31 @@
+From: "IT Global Helpdesk" <support@micr0soft-online-login.net>
+To: employees@company-corp.com
+Subject: Mandatory Security Notice: Multi-Factor Authentication Reset Required
+Date: Tue, 03 Sep 2026 08:30:00 +0000
+Message-ID: <20260903083000.119284@micr0soft-online-login.net>
+Reply-To: support@micr0soft-online-login.net
+Return-Path: <bounce@micr0soft-online-login.net>
+Authentication-Results: mx.company-corp.com;
+ spf=pass (sender IP 194.26.29.112 matches SPF record for micr0soft-online-login.net);
+ dkim=pass header.d=micr0soft-online-login.net;
+ dmarc=pass (p=none)
+Received: from mail.micr0soft-online-login.net (mail.micr0soft-online-login.net [194.26.29.112])
+ by mx.company-corp.com (Postfix) with ESMTPS id 2BxZpM7wQlk
+ for <employees@company-corp.com>; Tue, 03 Sep 2026 08:30:05 +0000
+Content-Type: text/html; charset="UTF-8"
+MIME-Version: 1.0
+
+<html>
+<body>
+  <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e1e1e1; padding: 20px;">
+    <h2 style="color: #0078d4;">Microsoft 365 Security Alert</h2>
+    <p>Dear Corporate User,</p>
+    <p>Our security systems have upgraded the organizational Authenticator service to version 4.2. All enterprise accounts are required to re-authenticate their active mobile MFA tokens immediately.</p>
+    <p>If you do not authenticate within 12 hours, access to Outlook Web, OneDrive, and corporate SharePoint portals will be locked.</p>
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="https://micr0soft-online-login.net/mfa/sync?tenant=company-corp" style="background-color: #0078d4; color: white; padding: 12px 24px; text-decoration: none; border-radius: 2px; font-weight: bold;">Synchronize Authenticator Token</a>
+    </div>
+    <p style="font-size: 12px; color: #666;">This is an automated system notification. Microsoft Corporation Security Services.</p>
+  </div>
+</body>
+</html>

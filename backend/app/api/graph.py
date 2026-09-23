@@ -1,0 +1,73 @@
+from typing import Optional
+from fastapi import APIRouter, Depends, Query
+from sqlalchemy.orm import Session
+from backend.app.core.database import get_db
+from backend.app.models import GraphNode, GraphEdge, User
+from backend.app.schemas import AttackIntentGraphResponse, GraphNodeResponse, GraphEdgeResponse
+from backend.app.api.deps import get_current_user
+from backend.app.core.strength import evidence_strength_label
+
+router = APIRouter(prefix="/graph", tags=["Attack Intent Graph"])
+
+@router.get("/", response_model=AttackIntentGraphResponse)
+def get_graph(
+    email_id: Optional[str] = Query(None, description="Filter graph for specific email"),
+    limit: int = Query(100, description="Max nodes to fetch"),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    nodes_query = db.query(GraphNode)
+    if email_id:
+        nodes_query = nodes_query.filter(
+            (GraphNode.reference_id == email_id) | (GraphNode.value == email_id)
+        )
+    
+    nodes = nodes_query.limit(limit).all()
+    node_ids = {n.id for n in nodes}
+
+    # Fetch edges connected to these nodes
+    if node_ids:
+        edges = db.query(GraphEdge).filter(
+            (GraphEdge.from_node.in_(node_ids)) | (GraphEdge.to_node.in_(node_ids))
+        ).limit(limit * 2).all()
+    else:
+        edges = []
+
+    # Include missing endpoint nodes for valid rendering
+    missing_node_ids = set()
+    for e in edges:
+        if e.from_node not in node_ids:
+            missing_node_ids.add(e.from_node)
+        if e.to_node not in node_ids:
+            missing_node_ids.add(e.to_node)
+
+    if missing_node_ids:
+        extra_nodes = db.query(GraphNode).filter(GraphNode.id.in_(missing_node_ids)).all()
+        nodes.extend(extra_nodes)
+
+    return AttackIntentGraphResponse(
+        nodes=[
+            GraphNodeResponse(
+                id=n.id,
+                node_type=n.node_type,
+                reference_id=n.reference_id,
+                label=n.label,
+                value=n.value,
+                metadata_json=n.metadata_json or {}
+            )
+            for n in nodes
+        ],
+        edges=[
+            GraphEdgeResponse(
+                id=e.id,
+                from_node=e.from_node,
+                to_node=e.to_node,
+                relation=e.relation,
+                confidence=float(e.confidence or 0.9),
+                evidence_strength=evidence_strength_label(float(e.confidence or 0.9)),
+                source=e.source,
+                evidence=e.evidence or {}
+            )
+            for e in edges
+        ]
+    )

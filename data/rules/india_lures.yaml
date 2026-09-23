@@ -1,0 +1,106 @@
+# India-specific threat rules & Hinglish keyword lures for CyberSentry (F14)
+lures:
+  - id: "IN_KYC_UPDATE"
+    name: "Bank KYC Expiry / PAN Linking Scams"
+    category: "CREDENTIAL_HARVESTING"
+    severity: "HIGH"
+    weight: 25.0
+    keywords:
+      - "kyc update"
+      - "kyc expired"
+      - "kyc pending"
+      - "pan card link"
+      - "link pan to bank"
+      - "aadhaar pan link"
+      - "update aadhaar"
+      - "account will be blocked"
+      - "account deactivation"
+      - "immediate kyc"
+    hinglish_patterns:
+      - "turant kyc karein"
+      - "khata band ho jayega"
+      - "apna kyc update kare"
+      - "pan link nahi kiya toh"
+      - "aaj hi update karein"
+
+  - id: "IN_INCOME_TAX_REFUND"
+    name: "Income Tax / CBDT Refund Fraud"
+    category: "FINANCIAL_FRAUD"
+    severity: "CRITICAL"
+    weight: 30.0
+    keywords:
+      - "income tax refund"
+      - "tax refund approved"
+      - "incometax.gov.in"
+      - "it department refund"
+      - "claim your refund"
+      - "cbdt refund"
+      - "tds refund credited"
+    hinglish_patterns:
+      - "tax wapas paye"
+      - "refund claim karein"
+      - "turant account me transfer"
+
+  - id: "IN_ELECTRICITY_BILL"
+    name: "Electricity / Power Disconnection Scam"
+    category: "EXTORTION_URGENCY"
+    severity: "HIGH"
+    weight: 25.0
+    keywords:
+      - "electricity power disconnected"
+      - "bijli bill"
+      - "power will be cut"
+      - "electricity office officer"
+      - "pay bill immediately"
+      - "discom warning"
+    hinglish_patterns:
+      - "aaj raat 9 baje bijli cut jayegi"
+      - "bijli bill baki hai"
+      - "officer se baat karein"
+      - "turant bill bhare"
+
+  - id: "IN_EPFO_PF"
+    name: "EPFO / Provident Fund Fraud"
+    category: "FINANCIAL_FRAUD"
+    severity: "HIGH"
+    weight: 20.0
+    keywords:
+      - "epfo claim"
+      - "uan activation"
+      - "pf balance withdrawal"
+      - "epfindia"
+      - "epfo kyc"
+    hinglish_patterns:
+      - "pf ka paisa nikale"
+      - "uan link karein"
+
+  - id: "IN_POST_PARCEL"
+    name: "India Post / Courier Address Update"
+    category: "DELIVERY_PHISHING"
+    severity: "MEDIUM"
+    weight: 15.0
+    keywords:
+      - "india post package"
+      - "parcel held at customs"
+      - "indiapost delivery failed"
+      - "update shipping address"
+      - "speed post delivery issue"
+    hinglish_patterns:
+      - "parcel ruka hua hai"
+      - "address galat hai"
+      - "turant update karein"
+
+  - id: "IN_TRAFFIC_ECHALLAN"
+    name: "Traffic Police / E-Challan Fake Notice"
+    category: "LEGAL_THREAT"
+    severity: "HIGH"
+    weight: 25.0
+    keywords:
+      - "traffic e-challan"
+      - "echallan parivahan"
+      - "court summons traffic"
+      - "pay pending fine"
+      - "vehicle impound notice"
+    hinglish_patterns:
+      - "challan bharein"
+      - "court case ho jayega"
