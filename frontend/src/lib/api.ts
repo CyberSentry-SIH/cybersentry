@@ -1,6 +1,17 @@
-const API_BASE = typeof window !== 'undefined'
-  ? '/api/v1'
-  : (process.env.NEXT_PUBLIC_API_URL || 'https://cybersentry-backend-egmb.onrender.com/api/v1');
+function getApiBase(): string {
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL.replace(/\/+$/, '');
+  }
+  if (typeof window !== 'undefined') {
+    if (window.location.hostname.includes('onrender.com')) {
+      return 'https://cybersentry-backend-egmb.onrender.com/api/v1';
+    }
+    return '/api/v1';
+  }
+  return 'https://cybersentry-backend-egmb.onrender.com/api/v1';
+}
+
+const API_BASE = getApiBase();
 
 function getToken(): string | null {
   if (typeof window !== 'undefined') {
