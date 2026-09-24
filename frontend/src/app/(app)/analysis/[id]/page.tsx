@@ -56,9 +56,9 @@ export default function AnalysisDetailPage() {
       api.getAnalysis(id)
         .then((anRes) => {
           setAnalysis(anRes);
-          const emailId = anRes?.email?.id;
+          const emailId = anRes?.email?.id || anRes?.email_id || id;
 
-          // Step 2: Fetch graph using email_id (the graph is indexed by email_id, not analysis/evidence id)
+          // Step 2: Fetch graph using email_id
           const graphPromise = emailId
             ? api.getAttackGraph(emailId).catch(() => null)
             : Promise.resolve(null);
@@ -787,9 +787,37 @@ export default function AnalysisDetailPage() {
       )}
 
       {/* Tab 5: Attack Intent Graph */}
-      {activeTab === 'graph' && graphData && (
+      {activeTab === 'graph' && (
         <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-6 shadow-sm">
-          <AttackIntentGraph nodes={graphData.nodes} edges={graphData.edges} />
+          {graphData && graphData.nodes && graphData.nodes.length > 0 ? (
+            <AttackIntentGraph nodes={graphData.nodes} edges={graphData.edges} />
+          ) : (
+            <div className="flex flex-col items-center justify-center py-16 space-y-4">
+              <div className="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center">
+                <Layers className="w-8 h-8 text-slate-400 dark:text-slate-500" />
+              </div>
+              <div className="text-center space-y-1.5">
+                <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 font-mono">Attack Intent Graph Unavailable</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm">
+                  No graph nodes were generated for this email. This may happen if the analysis pipeline did not produce graph data, or the email has not been fully processed yet.
+                </p>
+              </div>
+              <button
+                onClick={() => {
+                  const emailId = analysis?.email?.id || analysis?.email_id || (typeof id === 'string' ? id : '');
+                  if (emailId) {
+                    api.getAttackGraph(emailId)
+                      .then((res) => setGraphData(res))
+                      .catch(() => {});
+                  }
+                }}
+                className="btn-secondary text-xs font-mono py-2 px-4 flex items-center gap-2"
+              >
+                <Share2 className="w-3.5 h-3.5" />
+                Retry Graph Fetch
+              </button>
+            </div>
+          )}
         </div>
       )}
 

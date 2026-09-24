@@ -1,7 +1,10 @@
 import uuid
 from typing import Dict, Any, List, Optional
+from urllib.parse import urlparse
 from sqlalchemy.orm import Session
-from backend.app.models import GraphNode, GraphEdge
+from backend.app.models import (
+    GraphNode, GraphEdge, Email, Evidence, AnalysisRun
+)
 
 def build_attack_graph_for_email(
     db: Session,
@@ -22,13 +25,14 @@ def build_attack_graph_for_email(
     # 1. Email Node
     email_node = get_or_create_node(
         db, node_type="EMAIL", reference_id=email_id,
-        label=subject[:30] or "Suspicious Email",
+        label=subject[:40] if subject else "Suspicious Email",
         value=email_id,
         metadata={"subject": subject}
     )
     nodes.append(email_node)
 
     # 2. Sender Node
+    sender_node = None
     if from_address:
         sender_node = get_or_create_node(
             db, node_type="SENDER", reference_id=None,
@@ -50,7 +54,7 @@ def build_attack_graph_for_email(
             value=from_domain
         )
         nodes.append(domain_node)
-        if from_address:
+        if sender_node:
             edges.append(create_edge(
                 db, sender_node.id, domain_node.id, "RESOLVES_TO", "DNS_RESOLUTION",
                 confidence=0.92,
@@ -59,6 +63,8 @@ def build_attack_graph_for_email(
 
     # 4. Recipient Nodes
     for rec in recipients:
+        if not rec:
+            continue
         rec_node = get_or_create_node(
             db, node_type="RECIPIENT", reference_id=None,
             label=rec,
@@ -71,13 +77,19 @@ def build_attack_graph_for_email(
             evidence={"reason": "RFC 5322 To/Cc recipient address", "recipient": rec}
         ))
 
-    # 5. URL Nodes
+    # 5. URL Nodes and Target Domain Linkage
     for u in urls:
-        from urllib.parse import urlparse
-        host = (urlparse(u).hostname or u)[:30]
+        if not u:
+            continue
+        try:
+            parsed_u = urlparse(u)
+            host = (parsed_u.hostname or u)[:35]
+        except Exception:
+            host = u[:35]
+
         url_node = get_or_create_node(
             db, node_type="URL", reference_id=None,
-            label=host,
+            label=host or u[:30],
             value=u
         )
         nodes.append(url_node)
@@ -86,6 +98,19 @@ def build_attack_graph_for_email(
             confidence=0.90,
             evidence={"reason": "HTML anchor / plaintext URL extracted from body", "url": u}
         ))
+
+        if host and host != from_domain:
+            url_domain_node = get_or_create_node(
+                db, node_type="DOMAIN", reference_id=None,
+                label=host,
+                value=host
+            )
+            nodes.append(url_domain_node)
+            edges.append(create_edge(
+                db, url_node.id, url_domain_node.id, "HOSTED_ON", "URL_PARSER",
+                confidence=0.92,
+                evidence={"reason": "Target hostname domain extraction", "domain": host}
+            ))
 
     # 6. IP & Sending Infrastructure Nodes
     for h in hops:
@@ -110,7 +135,24 @@ def build_attack_graph_for_email(
                 }
             ))
 
-    # 7. Intent Node
+    # 7. Attachment Nodes
+    for att in (attachments or []):
+        filename = att.get("filename") or "Attachment"
+        sha256 = att.get("sha256") or ""
+        att_node = get_or_create_node(
+            db, node_type="ATTACHMENT", reference_id=None,
+            label=filename[:30],
+            value=sha256 or filename,
+            metadata={"file_type": att.get("file_type", ""), "sha256": sha256}
+        )
+        nodes.append(att_node)
+        edges.append(create_edge(
+            db, email_node.id, att_node.id, "HAS_ATTACHMENT", "MIME_PARSER",
+            confidence=0.95,
+            evidence={"reason": "MIME multipart payload attachment", "filename": filename, "sha256": sha256}
+        ))
+
+    # 8. Intent Node
     if intent:
         intent_node = get_or_create_node(
             db, node_type="INTENT", reference_id=None,
@@ -124,7 +166,7 @@ def build_attack_graph_for_email(
             evidence={"reason": "Semantic NLP & heuristic pattern matching", "intent": intent}
         ))
 
-    # 8. Campaign Node
+    # 9. Campaign Node
     if campaign_key:
         camp_node = get_or_create_node(
             db, node_type="CAMPAIGN", reference_id=None,
@@ -154,12 +196,24 @@ def get_or_create_node(
     if metadata is None:
         metadata = {}
 
-    existing = (
-        db.query(GraphNode)
-        .filter(GraphNode.node_type == node_type, GraphNode.label == label)
-        .first()
-    )
+    if node_type == "EMAIL":
+        existing = (
+            db.query(GraphNode)
+            .filter(
+                GraphNode.node_type == "EMAIL",
+                (GraphNode.reference_id == reference_id) | (GraphNode.value == value)
+            )
+            .first()
+        )
+    else:
+        existing = (
+            db.query(GraphNode)
+            .filter(GraphNode.node_type == node_type, GraphNode.label == label)
+            .first()
+        )
     if existing:
+        if metadata and not existing.metadata_json:
+            existing.metadata_json = metadata
         return existing
 
     new_node = GraphNode(
@@ -211,6 +265,128 @@ def create_edge(
     db.flush()
     return new_edge
 
+def ensure_attack_graph_for_email(db: Session, identifier: str) -> str:
+    """
+    Ensure an attack graph exists for the given email/evidence/analysis identifier.
+    If graph nodes are missing or empty, constructs and persists the graph on the fly.
+    Returns the resolved email_id string.
+    """
+    if not identifier:
+        return ""
+
+    email_obj = (
+        db.query(Email)
+        .filter((Email.id == identifier) | (Email.evidence_id == identifier))
+        .first()
+    )
+    if not email_obj:
+        ev = (
+            db.query(Evidence)
+            .filter((Evidence.id == identifier) | (Evidence.evidence_id == identifier))
+            .first()
+        )
+        if ev and ev.email:
+            email_obj = ev.email
+    if not email_obj:
+        ar = (
+            db.query(AnalysisRun)
+            .filter((AnalysisRun.id == identifier) | (AnalysisRun.email_id == identifier))
+            .first()
+        )
+        if ar and ar.email:
+            email_obj = ar.email
+
+    if not email_obj:
+        return identifier
+
+    email_id = email_obj.id
+
+    # Check if EMAIL node exists for this email
+    existing_node = (
+        db.query(GraphNode)
+        .filter(
+            GraphNode.node_type == "EMAIL",
+            (GraphNode.reference_id == email_id) | (GraphNode.value == email_id)
+        )
+        .first()
+    )
+
+    # Check if there are edges connected to it
+    has_edges = False
+    if existing_node:
+        has_edges = db.query(GraphEdge).filter(
+            (GraphEdge.from_node == existing_node.id) | (GraphEdge.to_node == existing_node.id)
+        ).first() is not None
+
+    if not existing_node or not has_edges:
+        # Build attack graph from email relations
+        recipients = [r.address for r in email_obj.recipients] if email_obj.recipients else []
+        urls = [
+            ind.indicator_value
+            for ind in email_obj.indicators
+            if ind.indicator_type in ("URL", "DOMAIN")
+        ] if email_obj.indicators else []
+
+        hops_data = []
+        if email_obj.hops:
+            for h in email_obj.hops:
+                if h.ip_address:
+                    hops_data.append({
+                        "ip_address": h.ip_address,
+                        "trust_level": getattr(h, "trust_level", "OBSERVED") or "OBSERVED",
+                        "trust_reason": getattr(h, "trust_reason", "") or ""
+                    })
+
+        attachments_data = []
+        if email_obj.attachments:
+            for a in email_obj.attachments:
+                attachments_data.append({
+                    "filename": a.filename,
+                    "file_type": a.file_type,
+                    "sha256": a.sha256
+                })
+
+        intent = "SUSPICIOUS_PHISHING"
+        campaign_key = None
+        if email_obj.analysis_run:
+            ar = email_obj.analysis_run
+            if ar.phishdna:
+                pdna = ar.phishdna
+                if hasattr(pdna, "campaign_key") and pdna.campaign_key:
+                    campaign_key = pdna.campaign_key
+                elif isinstance(pdna, dict) and pdna.get("campaign_key"):
+                    campaign_key = pdna.get("campaign_key")
+                
+                if hasattr(pdna, "structural_dna") and isinstance(pdna.structural_dna, dict):
+                    intent = pdna.structural_dna.get("intent", intent)
+
+            if ar.risk_score:
+                rs = ar.risk_score
+                if hasattr(rs, "band") and rs.band:
+                    intent = f"{rs.band}_RISK"
+                elif isinstance(rs, dict) and rs.get("band"):
+                    intent = f"{rs.get('band')}_RISK"
+
+        build_attack_graph_for_email(
+            db=db,
+            email_id=email_id,
+            subject=email_obj.subject or "Suspicious Email",
+            from_address=email_obj.from_address or "",
+            from_domain=email_obj.from_domain or "",
+            recipients=recipients,
+            urls=urls,
+            hops=hops_data,
+            attachments=attachments_data,
+            intent=intent,
+            campaign_key=campaign_key
+        )
+        try:
+            db.commit()
+        except Exception:
+            db.rollback()
+
+    return email_id
+
 def format_node(node: GraphNode) -> Dict[str, Any]:
     return {
         "id": node.id,
@@ -234,3 +410,4 @@ def format_edge(edge: GraphEdge) -> Dict[str, Any]:
         "source": edge.source,
         "evidence": edge.evidence or {}
     }
+

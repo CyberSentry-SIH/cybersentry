@@ -57,6 +57,24 @@ def test_graph_endpoint(client, analyst_headers):
     assert "edges" in data
     assert len(data["nodes"]) > 0
 
+def test_graph_endpoint_with_email_id(client, analyst_headers):
+    ev_res = client.get("/api/v1/evidence/", headers=analyst_headers)
+    assert ev_res.status_code == 200
+    ev_list = ev_res.json()
+    assert len(ev_list) > 0
+    email_id = ev_list[0]["id"]
+
+    res = client.get(f"/api/v1/graph/?email_id={email_id}", headers=analyst_headers)
+    assert res.status_code == 200
+    data = res.json()
+    assert "nodes" in data
+    assert "edges" in data
+    assert len(data["nodes"]) > 0
+    assert len(data["edges"]) > 0
+    # Verify EMAIL node exists
+    node_types = {n["node_type"] for n in data["nodes"]}
+    assert "EMAIL" in node_types
+
 def test_what_changed_compare(client, analyst_headers):
     # Fetch evidence list to compare two emails
     ev_res = client.get("/api/v1/evidence/", headers=analyst_headers)

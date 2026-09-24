@@ -15,7 +15,10 @@ router = APIRouter(prefix="/cases", tags=["Incident Cases"])
 @router.get("", response_model=List[CaseResponse])
 @router.get("/", response_model=List[CaseResponse], include_in_schema=False)
 def list_cases(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    cases = db.query(Case).order_by(Case.created_at.desc()).all()
+    # Filter cases to only show those belonging to the current user
+    cases = db.query(Case).filter(
+        (Case.created_by == current_user.id) | (Case.owner_id == current_user.id)
+    ).order_by(Case.created_at.desc()).all()
     results = []
     for c in cases:
         decisions_data = []
