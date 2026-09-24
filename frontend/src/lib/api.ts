@@ -1,6 +1,7 @@
 function getApiBase(): string {
-  if (process.env.NEXT_PUBLIC_API_URL) {
-    return process.env.NEXT_PUBLIC_API_URL.replace(/\/+$/, '');
+  const envUrl = (process.env.NEXT_PUBLIC_API_URL || '').trim();
+  if (envUrl && (envUrl.startsWith('http://') || envUrl.startsWith('https://')) && !envUrl.startsWith('postgres')) {
+    return envUrl.replace(/\/+$/, '');
   }
   if (typeof window !== 'undefined') {
     if (window.location.hostname.includes('onrender.com')) {
