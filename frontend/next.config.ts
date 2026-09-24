@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     let raw = (
       process.env.NEXT_PUBLIC_API_URL ||
       process.env.BACKEND_URL ||
-      "http://localhost:8000/api/v1"
+      "https://cybersentry-backend-egmb.onrender.com/api/v1"
     ).trim();
 
     // Normalize protocol

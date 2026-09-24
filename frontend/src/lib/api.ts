@@ -1,6 +1,6 @@
 const API_BASE = typeof window !== 'undefined'
   ? '/api/v1'
-  : (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1');
+  : (process.env.NEXT_PUBLIC_API_URL || 'https://cybersentry-backend-egmb.onrender.com/api/v1');
 
 function getToken(): string | null {
   if (typeof window !== 'undefined') {
